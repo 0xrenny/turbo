@@ -1,39 +1,56 @@
-(()=>{const T=window.TOKEN,$=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s),r=document.documentElement.style;
-for(const[k,v]of Object.entries(T.colors))r.setProperty('--'+k,v);
-document.title=`${T.name} (${T.ticker})`;$('meta[name=description]').content=T.tagline;
-$$('[data-name]').forEach(e=>{e.textContent=T.name;e.dataset.text=T.name});$$('[data-ticker]').forEach(e=>e.textContent=T.ticker);
-$$('[data-img]').forEach(e=>e.src=T.image);$('link[rel=icon]').href=T.image;
-$('[data-tagline]').textContent=T.tagline;$('[data-subtagline]').textContent=T.subtagline;$('[data-contract]').textContent=T.contract;
-$$('[data-link]').forEach(e=>e.href=T.links[e.dataset.link]||'#');$('#yr').textContent=new Date().getFullYear();
-const h=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.innerHTML=x;return e},esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
-const mq=$('#mq'),items=[...T.ticker_jokes,...T.ticker_jokes].map(j=>`<span>${esc(T.ticker)} ✦ ${esc(j)}</span>`).join('');mq.innerHTML=items+items;
-T.lore.forEach(p=>$('#lore-list').append(h('p','reveal',esc(p))));
-T.tokenomics.forEach(t=>$('#tk').append(h('div','card reveal',`<p class="lbl">${esc(t.label)}</p><div class="v">${esc(t.value)}</div><p>${esc(t.note)}</p>`)));
-T.buy_steps.forEach((s,i)=>$('#steps').append(h('div','card reveal',`<span class="n">0${i+1}</span><h3>${esc(s.t)}</h3><p>${esc(s.d)}</p>`)));
-T.roadmap.forEach((s,i)=>$('#rm').append(h('div','it reveal'+(i==0?' done':''),`<p class="lbl">${esc(s.phase)}</p><h3>${esc(s.t)}</h3><p>${esc(s.d)}</p>`)));
-T.memes.forEach(m=>$('#mm').append(h('div','meme reveal',`<img src="${esc(T.image)}" alt=""><span>${esc(m)}</span>`)));
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
-$$('.reveal').forEach((e,i)=>{e.style.transitionDelay=(i%4)*80+'ms';io.observe(e)});
-const toast=m=>{const t=$('#toast');if(m)t.textContent=m;t.classList.add('on');clearTimeout(t._);t._=setTimeout(()=>t.classList.remove('on'),2200)};
-$('#copy').onclick=async()=>{if(T.contract==='TBA'){toast('Contract is TBA. Patience is also a strategy.');return}
-try{await navigator.clipboard.writeText(T.contract)}catch{const a=h('textarea');a.value=T.contract;document.body.append(a);a.select();document.execCommand('copy');a.remove()}toast('Copied. Now don\'t paste it into a scam site.')};
-// fake speedometer
-let sp=0;setInterval(()=>{sp=Math.max(0,sp*.9+(Math.random()-.5)*.02);$('#spd').textContent=sp.toFixed(2)},400);
-// hero parallax tilt
-const hi=$('#hero-img');addEventListener('pointermove',e=>{const x=e.clientX/innerWidth-.5,y=e.clientY/innerHeight-.5;hi.style.translate=`${x*24}px ${y*24}px`});
-hi.onclick=()=>{hi.animate([{transform:'translateY(0)'},{transform:'translateY(-120px) rotate(20deg)'},{transform:'translateY(0)'}],{duration:700,easing:'cubic-bezier(.3,1.6,.5,1)'});toast('Liftoff aborted. Frog says "nice try".')};
-// turbo button
-let n=0,heat=0;const btn=$('#turbo');
-btn.onclick=e=>{n++;heat=Math.min(100,heat+7);sp+=n;$('#clicks').textContent=n;$('#mc').textContent='$'+Math.round(69*Math.pow(1.35,Math.min(n,60))).toLocaleString('en-US');
-$('#bar').style.width=heat+'%';$('#quip').textContent=n%10==0?`${n} clicks. Still on the launchpad.`:T.toy_quips[Math.floor(Math.random()*T.toy_quips.length)];
-const b=btn.getBoundingClientRect();for(let i=0;i<6;i++){const p=h('img','pop');p.src=T.image;p.style.left=b.left+b.width/2-22+'px';p.style.top=b.top+b.height/2-22+'px';
-const a=Math.random()*Math.PI*2,d=120+Math.random()*160;p.style.setProperty('--dx',Math.cos(a)*d+'px');p.style.setProperty('--dy',Math.sin(a)*d+'px');p.style.setProperty('--r',(Math.random()*720-360)+'deg');document.body.append(p);setTimeout(()=>p.remove(),1100)}
-if(heat>=100){toast('OVERHEATED. Even the frog needs a break.');heat=30}};
-setInterval(()=>{heat=Math.max(0,heat-2);$('#bar').style.width=heat+'%'},300);
-// starfield (warp speed with scroll)
-const c=$('#stars'),x=c.getContext('2d');let W,H,S=[];const rs=()=>{W=c.width=innerWidth;H=c.height=innerHeight;S=Array.from({length:Math.min(260,W/5)},()=>({x:Math.random()*W-W/2,y:Math.random()*H-H/2,z:Math.random()*W}))};rs();addEventListener('resize',rs);
-let ls=scrollY,boost=0;const red=matchMedia('(prefers-reduced-motion:reduce)').matches;
-(function f(){boost=boost*.92+Math.abs(scrollY-ls)*.05;ls=scrollY;x.fillStyle='rgba(7,7,11,.35)';x.fillRect(0,0,W,H);x.fillStyle='#fff';
-for(const s of S){s.z-=red?0:(1.2+boost);if(s.z<1){s.z=W;s.x=Math.random()*W-W/2;s.y=Math.random()*H-H/2}const k=128/s.z,px=s.x*k+W/2,py=s.y*k+H/2,sz=Math.max(.3,1.6-s.z/W*1.6);x.globalAlpha=1-s.z/W;x.fillRect(px,py,sz,sz)}
-x.globalAlpha=1;requestAnimationFrame(f)})();
+(()=>{const T=window.TOKEN,G=T.growth,M=T.marketcap,$=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+for(const[k,v]of Object.entries(T.colors))document.documentElement.style.setProperty('--'+k,v);
+document.title=`${T.name} · ${T.tagline}`;$('meta[name=description]').content=T.tagline;
+$$('[data-name]').forEach(e=>e.textContent=T.name);$$('[data-ticker]').forEach(e=>e.textContent=T.ticker);$$('[data-img]').forEach(e=>e.src=T.image);
+$('[data-contract]').textContent=T.contract;$$('[data-link]').forEach(e=>e.href=T.links[e.dataset.link]||'#');$('#yr').textContent=new Date().getFullYear();
+const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+$('#lore').textContent=T.sections.lore;
+$('#facts').innerHTML=T.sections.facts.map(f=>`<div class="reveal"><p class="lbl">${esc(f[0])}</p><b>${esc(f[1])}</b><i>${esc(f[2])}</i></div>`).join('');
+$('#buy').innerHTML=T.sections.buy.map((b,i)=>`<li class="reveal"><span>0${i+1}</span>${esc(b)}</li>`).join('');
+$('#rm').innerHTML=T.sections.roadmap.map(r=>`<li class="reveal"><span>${esc(r[0])}</span>${esc(r[1])}</li>`).join('');
+const io=new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting&&(e.target.classList.add('in'),io.unobserve(e.target))),{threshold:.15});$$('.reveal,.lede').forEach(e=>{e.classList.add('reveal');io.observe(e)});
+const toast=m=>{const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(t._);t._=setTimeout(()=>t.classList.remove('on'),2400)};
+$('#copy').onclick=async()=>{if(!T.contract||T.contract==='TBA')return toast('CA is TBA. Patience also grows things.');try{await navigator.clipboard.writeText(T.contract)}catch{}toast('Copied. Measure twice, ape once.')};
+// ---- market cap ----
+let mc=M.start,live=false;const lenOf=m=>Math.sqrt(Math.max(m,0))*G.cmPerSqrtDollar;
+async function poll(){const a=M.dexscreener&&M.dexscreener.address;if(!a||a==='TBA')return;
+ try{const r=await fetch('https://api.dexscreener.com/latest/dex/tokens/'+a),j=await r.json();const p=(j.pairs||[]).filter(p=>!M.dexscreener.chain||p.chainId===M.dexscreener.chain).sort((a,b)=>(b.liquidity?.usd||0)-(a.liquidity?.usd||0))[0];
+ const v=p&&(p.marketCap||p.fdv);if(v){mc=v;live=true;$('#live').textContent='LIVE'}}catch{}}
+poll();setInterval(poll,30000);
+setInterval(()=>{if(!live&&M.drift)mc*=1+(Math.random()-.47)*M.drift},500);
+$('#pump').onclick=()=>{mc*=M.pump;kick=1};$('#dump').onclick=()=>{mc*=M.dump;toast(G.shrinkComments[Math.random()*G.shrinkComments.length|0])};
+let kick=0;
+// ---- render ----
+const S=$('#scene'),frog=$('#frog'),NS='http://www.w3.org/2000/svg';let disp=lenOf(mc),rec=+localStorage.getItem('rec_'+T.ticker)||0,lastC='';
+const fmt$=v=>'$'+(v>=1e9?(v/1e9).toFixed(2)+'B':v>=1e6?(v/1e6).toFixed(2)+'M':v>=1e3?(v/1e3).toFixed(1)+'K':v.toFixed(0));
+const fmtL=c=>c>=100000?(c/100000).toFixed(2)+' km':c>=100?(c/100).toFixed(2)+' m':c.toFixed(1)+' '+G.unit;
+const nice=x=>{const p=Math.pow(10,Math.floor(Math.log10(x))),n=x/p;return(n<2?2:n<5?5:10)*p};
+function frame(t){const W=innerWidth,H=innerHeight,mob=W<760;
+ const target=lenOf(mc)+scrollY*G.scrollBonusCm;disp+=(target-disp)*.08;kick*=.9;
+ if(disp>rec+.5){rec=disp;localStorage.setItem('rec_'+T.ticker,rec)}
+ const fs=mob?Math.min(W*.42,190):Math.min(H*.32,300),fx=mob?W*.08:W*.06,fy=mob?H*.47:H*.5;
+ const startX=fx+fs*.72,avail=W-startX-(mob?40:150),frogCm=60;// frog is 60cm, for scale
+ const ppc=Math.min(avail/Math.max(disp,1),fs/frogCm*1.2);// px per cm (zooms out as it grows)
+ const Lpx=disp*ppc,y0=fy+fs*.12,th=Math.max(10,fs*.13);
+ frog.style.width=fs+'px';frog.style.left=fx+'px';frog.style.top=(fy-fs/2)+'px';
+ frog.style.transform=`rotate(${Math.sin(t/900)*3-kick*8}deg) translateY(${Math.sin(t/700)*6}px)`;
+ // hose path: wavy, sagging, wobble scales with energy
+ const n=40;let d='',pts=[];for(let i=0;i<=n;i++){const u=i/n,x=startX+u*Lpx,amp=(th*.9+kick*30)*Math.sin(Math.PI*u),y=y0+Math.sin(u*Math.PI*3-t/400)*amp*.6+u*u*th*1.4;pts.push([x,y]);d+=(i?'L':'M')+x.toFixed(1)+','+y.toFixed(1)}
+ for(const[id,w]of[['hose-shadow',th+6],['hose',th],['hose-ribs',th],['hose-shine',th*.18]]){const e=$('#'+id);e.setAttribute('d',d);e.setAttribute('stroke-width',w)}
+ $('#hose-ribs').setAttribute('stroke-dasharray',`2 ${Math.max(5,th*.55)}`);$('#hose-shine').setAttribute('transform',`translate(0,${-th*.25})`);
+ const[ex,ey]=pts[n],[px,py]=pts[n-1],ang=Math.atan2(ey-py,ex-px)*180/Math.PI;
+ $('#nozzle').setAttribute('transform',`translate(${ex},${ey}) rotate(${ang}) scale(${th/20})`);$('#flame').setAttribute('r',18+Math.sin(t/40)*4+kick*20);
+ // ruler
+ const ry=Math.min(fy+fs*.68,H*(mob?.68:.66)),R=$('#ruler');let step=nice(80/ppc),h='';h+=`<line x1="${startX}" y1="${ry}" x2="${W}" y2="${ry}" class="m"/>`;
+ for(let c=0;c*ppc<=W-startX;c+=step){const x=startX+c*ppc;h+=`<line x1="${x}" y1="${ry}" x2="${x}" y2="${ry+10}" class="m"/><text x="${x+4}" y="${ry+22}">${fmtL(c)}</text>`;
+  for(let k=1;k<5;k++){const xx=x+k*step/5*ppc;h+=`<line x1="${xx}" y1="${ry}" x2="${xx}" y2="${ry+5}"/>`}}
+ let mi=0;for(const[c,lab]of G.milestones){const x=startX+c*ppc;if(x>W-(mob?120:170)||c*ppc<34)continue;const yy=ry-14-(mi++%2)*20;h+=`<line x1="${x}" y1="${yy+4}" x2="${x}" y2="${ry}" class="m"/><text x="${x+5}" y="${yy}" class="ms">${esc(lab)}</text>`}
+ const rx=startX+rec*ppc;if(rx<W)h+=`<line x1="${rx}" y1="${ry-60}" x2="${rx}" y2="${ry+14}" stroke="var(--flame)" style="stroke:var(--flame)"/><text x="${rx-4}" y="${ry-64}" text-anchor="end" style="fill:var(--flame)">RECORD</text>`;
+ R.innerHTML=h;
+ const dl=$('#dimline');dl.setAttribute('x1',startX);dl.setAttribute('x2',startX+Lpx);dl.setAttribute('y1',ry-4);dl.setAttribute('y2',ry-4);
+ const dt=$('#dimtext');dt.setAttribute('x',startX+Lpx/2);dt.setAttribute('y',y0-th*2.2);dt.textContent='← '+fmtL(disp)+' →';
+ $('#mc').textContent=fmt$(mc);$('#len').textContent=fmtL(disp);$('#rec').textContent=fmtL(rec);
+ let c=G.comments[0][1];for(const[v,s]of G.comments)if(disp>=v)c=s;if(c!==lastC){lastC=c;const e=$('#comment');e.style.opacity=0;setTimeout(()=>{e.textContent=c;e.style.opacity=1},200)}
+ requestAnimationFrame(frame)}
+requestAnimationFrame(frame);
 })();

@@ -1,29 +1,36 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>TURBO</title><meta name="description" content=""><meta property="og:image" content="assets/mascot.png">
-<link rel="icon" href="assets/mascot.png">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;800&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>TURBO</title><meta name="description" content=""><meta name="theme-color" content="#0b0a08">
+<link rel="icon" href="assets/mascot.png"><meta property="og:image" content="assets/mascot.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css"><script src="config.js"></script></head><body>
-<canvas id="stars"></canvas><div id="grain"></div>
-<nav id="nav"><a href="#top" class="brand"><img data-img alt=""><b data-name></b></a>
-<div class="links"><a href="#lore">Lore</a><a href="#tokenomics">Tokenomics</a><a href="#buy">Buy</a><a href="#roadmap">Roadmap</a><a href="#toy">Turbo button</a></div>
-<a class="btn sm" data-link="dex" target="_blank" rel="noopener">Buy <span data-ticker></span></a></nav>
-<header id="top" class="hero"><div class="hero-l">
-<p class="lbl reveal">A memecoin. Allegedly.</p>
-<h1 class="reveal"><span data-name class="glitch"></span></h1>
-<p class="tag reveal" data-tagline></p><p class="sub reveal" data-subtagline></p>
-<div class="ca reveal"><span class="lbl">CA</span><code data-contract></code><button id="copy" class="btn">Copy</button></div>
-<div class="row reveal"><a class="btn ghost" data-link="x" target="_blank" rel="noopener">X</a><a class="btn ghost" data-link="telegram" target="_blank" rel="noopener">Telegram</a><a class="btn ghost" data-link="dex" target="_blank" rel="noopener">Chart</a></div>
-</div><div class="hero-r"><div class="orbit"><div class="ring r1"></div><div class="ring r2"></div><img data-img id="hero-img" alt="mascot"><div class="flame"></div></div>
-<div class="speedo lbl">SPEED: <b id="spd" class="mono">0.00</b> km/h · ALTITUDE: <b class="mono">0 m</b></div></div></header>
-<div class="marquee"><div id="mq"></div></div>
-<section id="lore"><p class="lbl">01 / Lore</p><h2>A frog. A helmet. <em>Zero</em> thrust.</h2><div id="lore-list" class="lore"></div></section>
-<section id="tokenomics"><p class="lbl">02 / Tokenomics</p><h2>Numbers, technically.</h2><div id="tk" class="grid4"></div></section>
-<section id="buy"><p class="lbl">03 / How to buy</p><h2>Four steps to regret-free* ownership.</h2><div id="steps" class="grid4"></div><p class="fine">*regret not included, sold separately.</p></section>
-<section id="roadmap"><p class="lbl">04 / Roadmap</p><h2>The plan (subject to vibes).</h2><div id="rm" class="rm"></div></section>
-<section id="toy"><p class="lbl">05 / The Turbo Button</p><h2>Press it. It does nothing. Faster.</h2>
-<div class="toy"><button id="turbo" class="big"><img data-img alt=""><span>TURBO</span></button>
-<div class="meter"><div id="bar"></div></div><p class="mono">Clicks: <b id="clicks">0</b> · Fake market cap: <b id="mc">$0</b></p><p id="quip" class="quip">the frog awaits your input</p></div></section>
-<section id="memes"><p class="lbl">06 / Memes</p><h2>Peer-reviewed research.</h2><div id="mm" class="memes"></div></section>
-<footer><img data-img alt=""><p><b data-name></b> is a meme coin with no intrinsic value or expectation of financial return. The frog is not a financial advisor. Neither are we.</p><p class="lbl">© <span id="yr"></span> · built at Mach 0</p></footer>
-<div id="toast">Copied. Now don't paste it into a scam site.</div>
+<div id="stage">
+  <svg id="scene" xmlns="http://www.w3.org/2000/svg"><defs>
+    <linearGradient id="hg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset=".35" stop-color="var(--hose)" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".55"/></linearGradient>
+    <radialGradient id="fg"><stop offset="0" stop-color="#fff"/><stop offset=".3" stop-color="var(--accent)"/><stop offset=".7" stop-color="var(--flame)"/><stop offset="1" stop-color="var(--flame)" stop-opacity="0"/></radialGradient>
+  </defs>
+    <g id="ruler"></g>
+    <path id="hose-shadow"/><path id="hose"/><path id="hose-ribs"/><path id="hose-shine"/>
+    <g id="nozzle"><rect x="-10" y="-17" width="22" height="34" rx="4"/><circle id="flame" cx="26" r="22" fill="url(#fg)"/></g>
+    <g id="dim"><line id="dimline"/><text id="dimtext" text-anchor="middle"></text></g>
+  </svg>
+  <img id="frog" data-img alt="">
+  <header class="top"><b data-name></b><span class="mono dimc" data-ticker></span><span class="sp"></span>
+    <button class="ca mono" id="copy"><span>CA</span> <code data-contract></code></button>
+    <a data-link="x" target="_blank" rel="noopener">X</a><a data-link="telegram" target="_blank" rel="noopener">TG</a><a data-link="dex" target="_blank" rel="noopener">Chart</a></header>
+  <div class="hud">
+    <div><p class="lbl">Market cap <span id="live" class="mono">SIMULATED</span></p><p id="mc" class="big mono">$0</p></div>
+    <div><p class="lbl">Length</p><p id="len" class="big mono">0 cm</p></div>
+    <div><p class="lbl">Record</p><p id="rec" class="big mono dimc">0 cm</p></div>
+  </div>
+  <h1 class="title"><span data-name></span><em id="comment"></em></h1>
+  <div class="ctrl"><button id="dump" class="mono">DUMP</button><button id="pump" class="mono">PUMP ↑</button></div>
+  <p class="hint mono">scroll to assist growth ↓</p>
+</div>
+<main>
+  <section class="s-lore"><p class="lbl">The lore</p><p class="lede" id="lore"></p></section>
+  <section><p class="lbl">Measurements</p><div id="facts" class="facts"></div></section>
+  <section class="split"><div><p class="lbl">How to buy</p><ol id="buy"></ol></div><div><p class="lbl">Roadmap, by length</p><ul id="rm"></ul></div></section>
+  <footer><p class="lede small"><span data-name></span> is a meme. No value, no promises, no fuel. Length is simulated until it isn't.</p><p class="lbl">© <span id="yr"></span></p></footer>
+</main>
+<div id="toast"></div>
 <script src="assets/app.js"></script></body></html>

@@ -1,47 +1,65 @@
-// ===== ALL BRANDING LIVES HERE. Edit this file to reskin. =====
+// ===== ALL BRANDING + THE GIMMICK LIVE HERE. Edit this file to reskin. =====
 window.TOKEN = {
   name: "TURBO",
   ticker: "$TURBO",
   image: "assets/mascot.png",
-  colors: { bg: "#07070b", ink: "#f5f2ea", accent: "#ffd23f", accent2: "#7ee0a6", danger: "#ff6b6b" },
-  tagline: "The fastest frog in the solar system. Still hasn't left the launchpad.",
-  subtagline: "No utility. No roadmap you should trust. Just a frog in a helmet, going TURBO at absolutely nothing.",
+  colors: { bg: "#0b0a08", ink: "#f3eee2", accent: "#ffcf2e", hose: "#c9c2b2", flame: "#ff7a1a", dim: "#8d877a" },
   contract: "TBA",
   links: { x: "https://x.com/", telegram: "https://t.me/", dex: "https://dexscreener.com/" },
-  ticker_jokes: [
-    "NOT FINANCIAL ADVICE", "BARELY EMOTIONAL ADVICE", "HELMET ON, BRAIN OFF",
-    "DEV IS A FROG", "100% MEME, 0% PLAN", "WAGMI (statistically unlikely)", "SPEED IS A STATE OF MIND"
-  ],
-  lore: [
-    "In 2021 a frog was strapped into a rocket by scientists who forgot to fuel it.",
-    "He's been sitting on the launchpad ever since, helmet on, absolutely convinced he's moving at Mach 9.",
-    "This is the frog. This is the token. The vibes are aerodynamic. The fundamentals are imaginary."
-  ],
-  tokenomics: [
-    { label: "Total supply", value: "1,000,000,000", note: "a big number, which is good, probably" },
-    { label: "Tax", value: "0%", note: "we tax your patience instead" },
-    { label: "LP", value: "Burned", note: "like your last portfolio" },
-    { label: "Team tokens", value: "0", note: "the frog refused a salary" }
-  ],
-  buy_steps: [
-    { t: "Get a wallet", d: "MetaMask, Rabby, whatever. Write the seed phrase down. Not in Notes. Not in a tweet." },
-    { t: "Get some ETH", d: "Buy it, bridge it, find it in a jacket pocket from 2017." },
-    { t: "Go to the DEX", d: "Paste the contract. Triple-check it. Scammers love frogs too." },
-    { t: "Swap for TURBO", d: "Click swap. Feel the acceleration. (That's anxiety. It's normal.)" }
-  ],
-  roadmap: [
-    { phase: "Phase 1", t: "Launch", d: "Deploy token. Tweet 'gm'. Call it a product." },
-    { phase: "Phase 2", t: "Ignition", d: "Rocket makes a noise. Community says 'it's happening'. It is not happening." },
-    { phase: "Phase 3", t: "Liftoff (pending)", d: "Awaiting fuel, permission from NASA, and a reason." },
-    { phase: "Phase 4", t: "Moon", d: "The frog lands on the moon. The moon asks him to leave." },
-    { phase: "Phase ∞", t: "Touch grass", d: "Optional. Highly discouraged. Grass has no chart." }
-  ],
-  memes: [
-    "Me explaining tokenomics to my mom: 'it's a frog'.",
-    "Bought the top. Called it 'early to the summit'.",
-    "My portfolio is down 90% but my helmet is up 100%.",
-    "Chart is sideways. Frog says that's a horizontal moon.",
-    "Diamond hands. Frog legs. Paper plan."
-  ],
-  toy_quips: ["slightly faster", "breaking the sound barrier (it's a whistle)", "dev is watching", "this does nothing", "chart still flat", "frog is proud of you", "helmet fogging up", "TURBO MODE ENGAGED", "please hydrate", "NASA has been notified"]
+  tagline: "A frog whose turbo hose is the market cap. Live. Unfortunately.",
+
+  // ---- Market cap feed ----
+  marketcap: {
+    start: 42000,            // placeholder mcap (USD) until a real feed exists
+    drift: 0.004,            // simulated random walk per tick (0 = off)
+    pump: 1.18,              // multiplier per PUMP press
+    dump: 0.8,               // multiplier per DUMP press
+    // Free DexScreener feed: set address (and keep contract in sync) and it goes live, polled every 30s.
+    dexscreener: { chain: "robinhood", address: "TBA" }
+  },
+
+  // ---- The growth object ----
+  growth: {
+    object: "turbo hose",
+    unit: "cm",
+    cmPerSqrtDollar: 0.5,    // length = sqrt(mcap) * this  ->  $42k ≈ 1 m, $1M ≈ 5 m, $1B ≈ 158 m
+    scrollBonusCm: 0.6,      // extra length per scrolled px ("assisted growth")
+    milestones: [
+      [10,   "decorative"],
+      [50,   "functional, technically"],
+      [100,  "average (we checked)"],
+      [250,  "above average"],
+      [500,  "pls stop measuring"],
+      [1000, "compensating for something"],
+      [3000, "visible from the parking lot"],
+      [10000,"needs its own zip code"],
+      [100000,"noticed by NASA"],
+      [1000000,"orbital hazard"]
+    ],
+    comments: [
+      [0,    "It's cold in space, okay?"],
+      [30,   "Size isn't everything. Says the chart."],
+      [80,   "Respectable. Mom would be proud. Mom doesn't know."],
+      [150,  "Turbo is now walking differently."],
+      [300,  "HR has been notified."],
+      [600,  "The hose has its own Telegram now."],
+      [1500, "Frog requests a bigger helmet. Denied."],
+      [5000, "Air traffic control is asking questions."],
+      [20000,"Scientists: 'that's not aerodynamic'. Turbo: 'it is now'."],
+      [200000,"It has achieved escape velocity. The frog has not."]
+    ],
+    shrinkComments: ["Shrinkage. It's the vacuum of space.", "Paper hands did this.", "It's a grower, not a show-er."]
+  },
+
+  sections: {
+    lore: "Turbo was strapped to a rocket and given exactly one feature: a hose that grows when people believe in him. There is no fuel. There is only market cap.",
+    facts: [
+      ["Supply", "1,000,000,000", "a big number for a big boy"],
+      ["Tax", "0%", "we tax dignity instead"],
+      ["LP", "Burned", "it was getting too long anyway"],
+      ["Team", "0%", "frog works for length, not money"]
+    ],
+    buy: ["Get a wallet. Hide the seed phrase from your ex.", "Get ETH on Robinhood Chain.", "Paste the CA on a DEX. Triple-check it.", "Swap. Watch it grow. Tell no one."],
+    roadmap: [["1 m", "Launch. Measure. Brag."], ["10 m", "CEX listing (Cousin's Exchange)."], ["100 m", "Hose crosses the Kármán line."], ["∞", "Turbo finally leaves the launchpad. Hose stays."]]
+  }
 };
