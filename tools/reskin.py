@@ -5,7 +5,7 @@ import argparse,json,re,shutil,os
 p=argparse.ArgumentParser();p.add_argument('--name',required=True);p.add_argument('--ticker',required=True);p.add_argument('--image',required=True)
 p.add_argument('--accent');p.add_argument('--tagline');p.add_argument('--ca')
 a=p.parse_args();root=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-ext=os.path.splitext(a.image)[1] or '.png';dst=f'assets/mascot{ext}';shutil.copy(a.image,os.path.join(root,dst))
+ext=os.path.splitext(a.image)[1] or '.png';dst=f'assets/mascot{ext}';os.path.abspath(a.image)!=os.path.join(root,dst) and shutil.copy(a.image,os.path.join(root,dst))
 f=os.path.join(root,'config.js');s=open(f).read()
 old=re.search(r'name: "(.*?)"',s).group(1)
 def setk(k,v):
